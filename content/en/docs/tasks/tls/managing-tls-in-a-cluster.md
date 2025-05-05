@@ -81,6 +81,10 @@ cat <<EOF | cfssl genkey - | cfssljson -bare server
 {
   "hosts": [
     "my-svc.my-namespace.svc.cluster.local",
+    "my-svc.my-namespace.svc.cluster",
+    "my-svc.my-namespace.svc",
+    "my-svc.my-namespace",
+    "my-svc",
     "my-pod.my-namespace.pod.cluster.local",
     "192.0.2.24",
     "10.0.34.2"
@@ -95,7 +99,9 @@ EOF
 ```
 
 Where `192.0.2.24` is the service's cluster IP,
-`my-svc.my-namespace.svc.cluster.local` is the service's DNS name,
+`my-svc` is the name of the service,
+`my-namespace` is the namespace of the service,
+and `.my-namespace.svc.cluster.local` is the service's DNS name,
 `10.0.34.2` is the pod's IP and `my-pod.my-namespace.pod.cluster.local`
 is the pod's DNS name. You should see the output similar to:
 
@@ -160,7 +166,10 @@ Subject:
         Serial Number:
 Subject Alternative Names:
         DNS Names:      my-pod.my-namespace.pod.cluster.local
-                        my-svc.my-namespace.svc.cluster.local
+                        my-svc.my-namespace.svc
+                        my-svc.my-namespace
+                        my-svc
+                        my-pod.my-namespace.pod.cluster.local
         IP Addresses:   192.0.2.24
                         10.0.34.2
 Events: <none>
@@ -362,4 +371,3 @@ Kubernetes controller manager provides a default implementation of a signer. To
 enable it, pass the `--cluster-signing-cert-file` and
 `--cluster-signing-key-file` parameters to the controller manager with paths to
 your Certificate Authority's keypair.
-
